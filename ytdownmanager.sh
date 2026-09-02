@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+#maizal subio esto a github
 #Modo twrminal
 if [ -n "$1" ]; then
 
