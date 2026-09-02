@@ -61,7 +61,7 @@ if [ -n "$TERMUX_VERSION" ]; then
     dep0="$HOME/YT-DLP"
     dep="$dep0/YTdownload"
     yt_dp="$dep/.venv/bin/yt-dlp"
-    ontamos="Tu ere pobrwe tu no tiene MACos"
+    ontamos="Tu ere pobre tu no tiene MACos"
     else
     dep0="$HOME/YT-DLP"
     dep="$dep0/YTdownload"
@@ -147,19 +147,19 @@ case $opcion in
    1)
 
    gestor_t() {
-      	if command -v apt-get &> /dev/null; then
-      	        echo "apt"
-      	    elif command -v dnf &> /dev/null; then
-      	        echo "dnf"
-      	    elif command -v pacman &> /dev/null; then
-      	        echo "pacman"
-      	    elif command -v brew &> /dev/null; then
-      	        echo "brew"
-      	    elif command -v pkg &> /dev/null; then
-      	        echo "pkg"
-      	    else
-      	        echo -e "${ROJO_ALERTA}desconocido${FIN}"
-      	    fi
+            if command -v apt-get &> /dev/null; then
+                echo "apt"
+            elif command -v dnf &> /dev/null; then
+                echo "dnf"
+            elif command -v pacman &> /dev/null; then
+                echo "pacman"
+            elif command -v brew &> /dev/null; then
+                echo "brew"
+            elif command -v pkg &> /dev/null; then
+                echo "pkg"
+            else
+                echo -e "${ROJO_ALERTA}desconocido${FIN}"
+            fi
       }
     gestor=$(gestor_t)
 
