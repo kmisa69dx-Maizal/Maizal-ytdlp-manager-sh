@@ -147,7 +147,9 @@ case $opcion in
    1)
 
    gestor_t() {
-            if command -v apt-get &> /dev/null; then
+            if [ -n "$TERMUX_VERSION" ]; then
+                echo "pkg"
+            elif command -v apt-get &> /dev/null; then
                 echo "apt"
             elif command -v dnf &> /dev/null; then
                 echo "dnf"
