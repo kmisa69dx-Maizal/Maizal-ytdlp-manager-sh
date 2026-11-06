@@ -148,7 +148,7 @@ case $opcion in
 
    gestor_t() {
             if [ -n "$TERMUX_VERSION" ]; then
-                echo "pkg"
+                echo "pkg-term"
             elif command -v apt-get &> /dev/null; then
                 echo "apt"
             elif command -v dnf &> /dev/null; then
@@ -158,7 +158,7 @@ case $opcion in
             elif command -v brew &> /dev/null; then
                 echo "brew"
             elif command -v pkg &> /dev/null; then
-                echo "pkg"
+                echo "pkg-open"
             else
                 echo -e "${ROJO_ALERTA}desconocido${FIN}"
             fi
@@ -219,7 +219,16 @@ case "$gestor" in
            read -p "Instalación completada con éxito. Presione Enter..."
    ;;
 
-   "pkg")
+   "pkg-open")
+     echo "Gestor pkg (Termux/FreeBSD) detectado iniciando instalacion..."
+           pkg update -y && pkg install ffmpeg python -y
+           echo "Actualizando gestor pip e instalando yt-dlp..."
+           pip install --upgrade pip
+           pip install yt-dlp
+           read -p "Instalación completada con éxito. Presione Enter..."
+   ;;
+
+   "pkg-term")
      echo "Gestor pkg (Termux/FreeBSD) detectado iniciando instalacion..."
            pkg update -y && pkg install ffmpeg python -y
            echo "Actualizando gestor pip e instalando yt-dlp..."
@@ -265,15 +274,15 @@ read -p "Instalación y configuración completadas. Presione Enter..."
     read -p "1>>mp3  2>>vmp3  3>>flac " audio
     if [ "$audio" = "1" ]; then
     
-    $yt_dp -P "$dep/mp3" -x --audio-format mp3 --audio-quality 0 --embed-metadata --embed-thumbnail -o "%(title)s - %(artist,uploader)s%(genre& [{}]|)s.%(ext)s" "$url1"
+    $yt_dp -P "$dep/mp3" -x --audio-format mp3 --audio-quality 0 --embed-metadata --embed-thumbnail --abort-on-error --retries infinite --fragment-retries infinite --retry-sleep 10 -o "%(title)s - %(artist,uploader)s%(genre& [{}]|)s.%(ext)s" "$url1"
        
     elif [ "$audio" = "2" ]; then
      
-     $yt_dp -P "$dep/vmp3" -x --audio-format mp3 --audio-quality 0 --embed-metadata --embed-thumbnail --parse-metadata "title:%(title)s" --replace-in-metadata "title" "(?i)\s*[\(\[][^)]*(official|video|audio|lyrics|hd|4k|videoclip|remastered)[^)]*[\)\]]" "" --replace-in-metadata "artist" "(?i)\s*-\s*Topic" "$url1"
+     $yt_dp -P "$dep/vmp3" -x --audio-format mp3 --audio-quality 0 --embed-metadata --embed-thumbnail --abort-on-error --retries infinite --fragment-retries infinite --retry-sleep 10  --parse-metadata "title:%(title)s" --replace-in-metadata "title" "(?i)\s*[\(\[][^)]*(official|video|audio|lyrics|hd|4k|videoclip|remastered)[^)]*[\)\]]" "" --replace-in-metadata "artist" "(?i)\s*-\s*Topic" "$url1"
          
     elif [ "$audio" = "3" ]; then
     
-     $yt_dp -P "$dep/flac" -x --audio-format flac --audio-quality 0 "$url1"
+     $yt_dp -P "$dep/flac" -x --audio-format flac --audio-quality 0 --embed-metadata --embed-thumbnail --abort-on-error --retries infinite --fragment-retries infinite --retry-sleep 10 "$url1"
     
     else
     echo "opcion incorrecta..."
@@ -285,7 +294,7 @@ read -p "Instalación y configuración completadas. Presione Enter..."
    3)
     read -p ">> Pegue su url: " url2
     echo "" #
-    $yt_dp -P "$dep/mp4" -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b" --embed-metadata --embed-thumbnail "$url2"
+    $yt_dp -P "$dep/mp4" -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4] / bv*+ba/b" --embed-metadata --embed-thumbnail --abort-on-error --retries infinite --fragment-retries infinite --retry-sleep 10 "$url2"
    ;;
 
     4)
