@@ -160,7 +160,7 @@ case $opcion in
             elif command -v pkg &> /dev/null; then
                 echo "pkg-open"
             else
-                echo -e "${ROJO_ALERTA}desconocido${FIN}"
+                echo -e "${ROJO_ALERTA}desconocido Systema no soportado${FIN}"
             fi
       }
     gestor=$(gestor_t)
@@ -168,39 +168,39 @@ case $opcion in
 case "$gestor" in 
    "apt")
      echo "Gestor apt detectado iniciando instalacion..."
-           sudo apt update -y &&  sudo apt install ffmpeg python3 python3-venv -y
+           sudo apt update -y &&  sudo apt install ffmpeg python3 python3-venv aria2 rtmpdump phantomjs -y
            python3 -m venv "$dep/.venv"
            . "$dep/.venv/bin/activate"
            echo "Actualizando gestor pip e instalando yt-dlp..."
             pip install --upgrade pip
-            pip install yt-dlp
+            pip install yt-dlp certifi mutagen pycryptodomex websockets
             read -p "Instalación completada con éxito. Presione Enter..."
    ;;
 
    "dnf")
       echo "Gestor dnf detectado, iniciando instalación..."
         sudo dnf check-update -y
-        sudo dnf install ffmpeg python3 -y
+        sudo dnf install ffmpeg python3 aria2 rtmpdump phantomjs -y
         
         python3 -m venv "$dep/.venv"
         . "$dep/.venv/bin/activate"
         
         echo "Actualizando gestor pip e instalando yt-dlp..."
         pip install --upgrade pip
-        pip install yt-dlp
+        pip install yt-dlp certifi mutagen pycryptodomex websockets
         read -p "Instalación completada con éxito. Presione Enter..."
    ;;
    
    "pacman")
       echo "Gestor pacman detectado, iniciando instalación..."
-            sudo pacman -Sy --noconfirm ffmpeg python
+            sudo pacman -Sy --noconfirm ffmpeg python aria2 rtmpdump
               
             python3 -m venv "$dep/.venv"
             . "$dep/.venv/bin/activate"
               
             echo "Actualizando gestor pip e instalando yt-dlp..."
             pip install --upgrade pip
-            pip install yt-dlp
+            pip install yt-dlp certifi mutagen pycryptodomex websockets
             read -p "Instalación completada con éxito. Presione Enter..."
 
    ;;
@@ -208,32 +208,32 @@ case "$gestor" in
    "brew")
      echo "Gestor brew (macOS) detectado, iniciando instalación..."
            brew update
-           brew install ffmpeg python
+           brew install ffmpeg python aria2 rtmpdump phantomjs
              
            python3 -m venv "$dep/.venv"
            . "$dep/.venv/bin/activate"
              
            echo "Actualizando gestor pip e instalando yt-dlp..."
            pip install --upgrade pip
-           pip install yt-dlp
+           pip install yt-dlp certifi mutagen pycryptodomex websockets
            read -p "Instalación completada con éxito. Presione Enter..."
    ;;
 
    "pkg-open")
      echo "Gestor pkg (Termux/FreeBSD) detectado iniciando instalacion..."
-           pkg update -y && pkg install ffmpeg python -y
+           pkg update -y && pkg install ffmpeg python aria2 rtmpdump -y
            echo "Actualizando gestor pip e instalando yt-dlp..."
            pip install --upgrade pip
-           pip install yt-dlp
+           pip install yt-dlp certifi mutagen pycryptodomex websockets
            read -p "Instalación completada con éxito. Presione Enter..."
    ;;
 
    "pkg-term")
      echo "Gestor pkg (Termux/FreeBSD) detectado iniciando instalacion..."
-           pkg update -y && pkg install ffmpeg python -y
+           pkg update -y && pkg install ffmpeg python aria2 rtmpdump -y
            echo "Actualizando gestor pip e instalando yt-dlp..."
            pip install --upgrade pip
-           pip install yt-dlp
+           pip install yt-dlp certifi mutagen pycryptodomex websockets
            read -p "Instalación completada con éxito. Presione Enter..."
    ;;
 
@@ -300,11 +300,11 @@ read -p "Instalación y configuración completadas. Presione Enter..."
     4)
    if [ -n "$TERMUX_VERSION" ]; then
       echo "Conectando con servidores PyPI para actualizar yt-dlp en Termux..."
-      pip install --upgrade yt-dlp
+      pip install --upgrade yt-dlp certifi mutagen pycryptodomex websockets
    elif [ -d "$dep/.venv" ]; then
       echo "Conectando con servidores PyPI para actualizar yt-dlp en el entorno virtual..."
       "$dep/.venv/bin/pip" install --upgrade pip
-      "$dep/.venv/bin/pip" install --upgrade yt-dlp
+      "$dep/.venv/bin/pip" install --upgrade yt-dlp certifi mutagen pycryptodomex websockets
    else
       echo "No existe un entorno virtual creado todavía."
    fi
